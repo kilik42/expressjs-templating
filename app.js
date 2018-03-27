@@ -45,6 +45,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //express middleware validator
 app.use(expressValidator());﻿
 
+
 var users = [
   {
     id: 1,
@@ -77,11 +78,23 @@ app.get('/', function(req, res){
 app.post('/users/add', function(req, res){
     //console.log('form submitted')
     //console.log(req.body.first_name);
-    var newUser = {
-      first_name: req.body.first_name,
-      last_name: req.body.last_name,
-      email: req.body.email
+    req.checkBody('first_name', 'First name is required').notEmpty();
+    req.checkBody('last_name', 'Last name is required').notEmpty();
+    req.checkBody('email', 'email is required').notEmpty();
+
+    var errors = req.validationErrors();
+    if(errors){
+      console.log('errors');
+    }else{
+      var newUser = {
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        email: req.body.email
+      }
+      console.log('success');
     }
+
+
     console.log(newUser);
 });
 
