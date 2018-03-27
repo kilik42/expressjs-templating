@@ -1,6 +1,17 @@
 
 <% include partials/header %>
   <h1> add customer</h1>
+
+ <!-- checking for errors and outputting to page -->
+  <% if(errors != undefined) { %>
+      <ul>
+            <% errors.forEach(function(error){ %>
+              <li>
+                <%= error.msg %>
+               </li>
+            <%  }) %>
+      </ul>
+  <% }%>
   <form method="POST" action="/users/add">
     <label for="">First Name</label>
     <br>
@@ -22,8 +33,10 @@
   <h1>
     <%= title %>
   </h1>
+
+<!--   outputting users information-->
   <ul>
-  <% users.forEach(function(){ %>
+  <% users.forEach(function(user){ %>
     <li>
       <%= user.first_name %>
       <%= user.last_name %>

@@ -25,6 +25,12 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 //set up line of middleware for public resources(images, scripts,etc)
 app.use(express.static(path.join(__dirname, 'public')));
+
+//gloval vars
+app.use(function(req, res, next){
+    res.locals.errors = null;
+    next();
+});
 // var people = [
 //   {
 //   name: 'james',
@@ -84,7 +90,11 @@ app.post('/users/add', function(req, res){
 
     var errors = req.validationErrors();
     if(errors){
-      console.log('errors');
+          res.render('index', {
+              title: 'Customers',
+              users: users,
+              errors: errors
+          });
     }else{
       var newUser = {
         first_name: req.body.first_name,
